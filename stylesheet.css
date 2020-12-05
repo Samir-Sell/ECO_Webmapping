@@ -1,0 +1,27 @@
+#header {
+    height: 75px;
+    background-color: azure;
+}
+
+#mapdiv {
+    height: 600px;
+}
+
+#side-panel {
+    height: 600px;
+    background-color: beige;
+}
+
+#footer {
+    height: 75px;
+    background-color: grey;
+}
+
+#load_bbox {
+    margin-left: 7px;
+}
+
+#download_data {
+    margin-left: 7px;
+    margin-top: 7px;
+}

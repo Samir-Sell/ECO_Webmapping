@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<! -- Defining dependency links and stylesheet  -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+crossorigin=""/>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+crossorigin=""></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="resources/leaflet-ajax-gh-pages/src/ajax.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+
+<link rel="stylesheet" href="stylesheet.css">
+
+   
+<meta charset="UTF-8">
+<title>Document</title>
+
+</head>
+<body>
+    <! -- Header DIV -->
+    <div id="header" class="col-md-12">
+        <h1 class="text-center">NCC Webapp</h1>
+    </div>
+    <div class="row">
+        
+        <! -- Side Panel DIV -->
+        <div id="side-panel" class="col-md-3">
+            <h1 class="text-center"> Data </h1>
+            
+            <! -- Button to load data from current view point -->
+            <button id="load_bbox" class="form-control btn-primary"> Load Data </button>
+            
+            <! -- Button to download currently shown data -->
+            <a href="testfile.geojson" download>
+                <button id="download_data" class="form-control btn-primary"> Download Data </button>
+            </a>
+            <p></p>
+
+        </div>
+        <! -- Map DIV -->
+        <div id="mapdiv" class="col-md-8"></div>
+    </div>
+    
+    <! -- Create Footer -->
+    <div id="footer" class="col-md-11">
+        <h4 id="map_coords" class="text-center"> Latitude:19.4 Longitude: -99.1 Zoom Level: 11</h4>
+        <h4 class="text-center"><a href="https://www.samirsellars.ca/">Samir Sellars</a> </h4>
+    </div>
+
+    <script>
+        
+        // Set view
+        var mymap = L.map('mapdiv').setView([45.4215, -75.6972], 13);
+
+        // Control Leaflet.draw toolbar and disable everything besides the rectangle tool
+        var drawControl = new L.Control.Draw({
+         draw: {
+            polyline : false,
+            rectangle : 'Draw Bounding Box',
+            circle : false,
+            polygon: false,
+            marker: false
+         }
+        });
+
+        // Add control panel to leaflet map
+        mymap.addControl(drawControl);
+        
+        // Add basemap from Open Street Maps and adjust zoom
+        var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	    maxZoom: 19,
+	    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(mymap);
+        
+        // Bind popup to screen on click form user
+        function onEachFeature(feature, layer) {
+            layer.bindPopup(feature.properties.wildlife_a);
+        }
+        
+        // Custom bounding box tool to load data when user draws rectangle
+        mymap.on(L.Draw.Event.CREATED, function (e) {
+            var layer = e.layer;
+            resp = layer.getLatLngs().map(function(point) {
+                query_box = [
+                    point[1].lng, //xmin
+                    point[0].lat, //ymin
+                    point[2].lng, //xmax
+                    point[1].lat  //ymax
+                ];
+                return query_box;
+            });    
+            
+            // Try and catch statement to remove previously added data
+            try{
+                mymap.removeLayer(json_all_data)
+                mymap.removeLayer(layer_all)
+            }
+            catch(e) {
+                if(e.name == "ReferenceError") {
+            }}
+            
+            // Create a POST call to the db to query for data within the bounding box
+            $.ajax({ 
+                    type:"POST",
+                    url:'load_data.php', 
+                    data: {query_box:query_box},
+
+                    // Successful call will parse geojson repsonse and add it to map
+                    success: function(response, file){
+                        console.log("success");
+                        json_all_data= JSON.parse(response);
+                        console.log(response);
+                        layer_all = L.geoJSON(json_all_data, {
+
+                            onEachFeature: onEachFeature
+                        
+                        }).addTo(mymap);
+                        
+                    },
+                    // Unsuccesful call will write error code to screen
+                    error: function(xhr, status, error) {
+                        console.log("failure");
+                        alert("ERROR: " + error)
+                    }
+                })
+        });
+
+        // Add ALL data visible on the screen when button is clicked
+        $("#load_bbox").click(function(){
+            
+            // Try and catch statement to remove previously added data
+            try{
+                mymap.removeLayer(json_all_data)
+                mymap.removeLayer(layer_all)
+            }
+            catch(e) {
+                if(e.name == "ReferenceError") {
+            }}
+            
+
+            // Grab and create list of current screen coordinates
+            var bbox = mymap.getBounds();
+            var query_box = [
+                bbox._southWest.lng,
+                bbox._southWest.lat,
+                bbox._northEast.lng,
+                bbox._northEast.lat
+            ]
+
+            // Create ajax POST call to Postgres
+            $.ajax({
+                type:"POST",
+                url:'load_data.php', 
+                data: {query_box:query_box},
+
+                // Successful call will parse geojson repsonse and add it to map
+                success: function(response, file){
+                    console.log("success");
+                    json_all_data= JSON.parse(response);
+                    console.log(response);
+                    layer_all = L.geoJSON(json_all_data, {
+
+                        onEachFeature: onEachFeature
+                    
+                    }).addTo(mymap);
+                    
+                },
+                // Unsuccesful call will write error code to screen
+                error: function(xhr, status, error) {
+                    console.log("failure");
+                    alert("ERROR: " + error)
+                }
+            })
+        });
+        
+        // Allow users to download current visible data in GeoJSON format
+        $("#download_data").click(function(){
+        })
+        
+        //informs users of long and lat and zoom level when mouse is moved
+        mymap.on('mousemove', function(e){
+            var str = "Latitude: " + e.latlng.lat.toFixed(2) + " Longitude: " + e.latlng.lng.toFixed(2) + " Zoom Level: " + mymap.getZoom();
+            $("#map_coords").html(str);
+        });
+    </script>
+</body>
+</html>
