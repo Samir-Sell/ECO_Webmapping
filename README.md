@@ -18,3 +18,7 @@ Another useful functionality was added to the web by using a Leaflet community a
 
 Finally, I added some quality of life additions to the map such as text updating on mouse movement that informs the user of their cursors current latitude, longitude and zoom level. This was implementing by using built in Leaflet.JS functions. Additionally, I allowed the user to click on popups on the map in order to find out what kind of nest it was. This was completed by parsing the the current GeoJSON to pull out the attribure I wanted to display and then displaying it using a Leaflet method. 
 
+## Server Set Up
+
+The next step in the process was to set up a server which would be able to serve my data through a webserver. The server used was a Linux VM Droplet from Digital Ocean.  
+
