@@ -20,5 +20,12 @@ Finally, I added some quality of life additions to the map such as text updating
 
 ## Server Set Up
 
-The next step in the process was to set up a server which would be able to serve my data through a webserver. The server used was a Linux VM Droplet from Digital Ocean.  
+The next step in the process was to set up a server which would be able to serve my data through a webserver. The server used was an Ubuntu Linux VM Droplet from Digital Ocean. On the VM, I installed and confugred Apache using one of the many different apache tutorials tutorials. Just like XAAMP, I had to install PHP and enable the PostgreSQL PDO module in the PHP Apache configuration file. I also had to install PostgreSQL on the VM, along with its postGIS extension. I tried to load my data into PostgreSQL directly from  a wget call using the Government of Ontario API. However, I ran into security issues and limitations which prevented me from successfully downloading the required data. Instead, I used a program called Filezilla to use FTP protocol to transfer the files directly from my local machine to the VM. I then used ogr2ogr on the VM to load the data into my database table. From there, I set up the required file structure of the website by following online tutorials and permitted it to go live. 
 
+## Challenges
+
+By far the biggest challenges I ran into were scope creep and the abundance of technologies I had to learn in order to finish this project. Originally, I had dreams of adding more features. However, I believe I would have needed a lot more time to spend on this project without interuptions from jobs and other courses. Furthermore, the amount of technologies that were required to allow this webmap to work kept growing and I found it difficult to remember everything I had learned when I took a break from the project. I never realized how many pieces of software I would have to implement in order to have a functional webmap. Much of the software I used was older software such as AJAX. I made this choice as there were numerous tutorials and documentation I could pull from in order to develop the webmap. The newer snazzier software did not have as many Geo related tutorials. 
+
+## Wrap-up
+
+Altogether this was an enjoyable project that greatly increased my knowledge of how webmaps functions. I was able to learn the basics of many different types of useful technologies. These basics will provide a jump off point for my next project I decide to undertake. I look forward to continuing my learning so that I can eventually create full fledged web map applications for end users.
