@@ -1,5 +1,6 @@
 <?php
     
+    
     // Credentials for DB
     $host = 'localhost';
     $db = 'webmap';
