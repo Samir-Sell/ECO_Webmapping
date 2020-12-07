@@ -5,7 +5,11 @@ This is a webmap I created for a school project. The webmap uses a fragment of w
 Data Snippet:
 ![](https://github.com/Samir-Sell/Eco_Webmapping/blob/Eco_Webmapping/Images/Data.PNG)
 
+
+
 A visualization of the workflow can be seen below: 
+
+
 ![](https://github.com/Samir-Sell/Eco_Webmapping/blob/Eco_Webmapping/Images/Webmap_App%20(2).png)
 
 ---
