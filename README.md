@@ -18,6 +18,8 @@ Another useful functionality was added to the web map by using a Leaflet communi
 
 Finally, I added some quality of life additions to the map such as text updating on mouse movement that informs the user of their cursors current latitude, longitude and zoom level. This was implemented by using built in Leaflet.JS functions. Additionally, I allowed the user to click on popups on the map in order to find out what kind of nest it was. This was completed by parsing the the current GeoJSON to pull out the attribute I wanted to display and then displaying it using a Leaflet method. 
 
+![](https://github.com/Samir-Sell/Eco_Webmapping/blob/Eco_Webmapping/Images/popup.PNG)
+
 ## Server Set Up
 
 The next step in the process was to set up a server which would be able to serve my data through a webserver. The server used was an Ubuntu Linux VM Droplet from Digital Ocean. On the VM, I installed and confugred Apache using one of the many different apache tutorials. Just like XAAMP, I had to install PHP and enable the PostgreSQL PDO module in the PHP Apache configuration file. I also had to install PostgreSQL on the VM, along with its postGIS extension. I tried to load my data into PostgreSQL directly from a wget call using the Government of Ontario API. However, I ran into security issues and limitations which prevented me from successfully downloading the required data. Instead, I used a program called Filezilla to use FTP protocol to transfer the files directly from my local machine to the VM. I then used ogr2ogr on the VM to load the data into my database table. From there, I set up the required file structure of my website by following online tutorials and permitted it to go live. 
