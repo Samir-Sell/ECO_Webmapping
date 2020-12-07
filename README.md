@@ -17,7 +17,12 @@ I was now able to implement my first button which allowed users to load nesting 
 
 I installed PostgreSQL with the PostGIS extension. I had then loaded in a fragment of data from the wild life value sites data set. This data set was loaded into postgreSQL by using ogr2ogr which allowed me to load shapefiles into the database. The load_data.php script used the PHP PDO data object to connect to my Postgres database and execute a query. The query would select geometries from my database that were within the bounding box paramters gathered from the user. Additionally, I chose to select the records as JSON. The returned selection was assigned to a variable and looped through in order to convert the JSON to a GeoJSON format that was readable by Leaflet.JS. All records were then combined into a single GeoJSON file which was then returned to the user. Additionally, the GeoJSON text was written into a GeoJSON file locally on the server and stored there. If one already existed, the new file would replace the old one. This will lead us into the next functon. The user has the ability to download the currently displayed GeoJSON data that they have just generated. 
 
+Load Data Button:
+
+![](https://github.com/Samir-Sell/Eco_Webmapping/blob/Eco_Webmapping/Images/Load_Data.PNG)
+
 GeoJSON Output Snippet:
+
 ![](https://github.com/Samir-Sell/Eco_Webmapping/blob/Eco_Webmapping/Images/GeoJSON.PNG)
 
 Another useful functionality was added to the web map by using a Leaflet community add on called Leaflet.Draw. This add on allows the implementation of a control panel that allows the user to draw various shapes. In my case, I only wanted rectangles to be drawn so I disabled all other shapes besides rectangles. The rectangle acts as a bounding box tool that allows users to draw a rectangle in order to query for nest data from the database. I was able to access the latitude and longitude data from the created bounding box in order to parse the needed parameters for the SQL query that was located in my load_data.php script. Therefore, I was able to use a POST request to send the parameters to the server side script and return GeoJSON from the database to the user.
