@@ -1,6 +1,6 @@
 # Eco_Webmapping
 
-This is a webmap I created for a school project. The webmap uses a fragment of wild life value sites which were downloaded from the [Governement of Ontario GeoHub](https://geohub.lio.gov.on.ca/datasets/wildlife-values-site/geoservice). The sites are all represented as point data with the majority of sites being important nesting areas. I will document my thought processes, the tools I used, and the issues I ran into.
+This is a webmap I created for a school project. The webmap uses a fragment of wild life value sites which were downloaded from the [Governement of Ontario GeoHub](https://geohub.lio.gov.on.ca/datasets/wildlife-values-site/geoservice). The sites are all represented as point data with the majority of sites being important nesting areas. I will document my thought processes, the tools I used, and the issues I ran into. The final web map application can be found [here.](http://178.128.231.160/)
 
 Data Snippet:
 ![](https://github.com/Samir-Sell/Eco_Webmapping/blob/Eco_Webmapping/Images/Data.PNG)
@@ -19,7 +19,10 @@ I installed PostgreSQL with the PostGIS extension. I had then loaded in a fragme
 
 Another useful functionality was added to the web map by using a Leaflet community add on called Leaflet.Draw. This add on allows the implementation of a control panel that allows the user to draw various shapes. In my case, I only wanted rectangles to be drawn so I disabled all other shapes besides rectangles. The rectangle acts as a bounding box tool that allows users to draw a rectangle in order to query for nest data from the database. I was able to access the latitude and longitude data from the created bounding box in order to parse the needed parameters for the SQL query that was located in my load_data.php script. Therefore, I was able to use a POST request to send the parameters to the server side script and return GeoJSON from the database to the user.
 
-Finally, I added some quality of life additions to the map such as text updating on mouse movement that informs the user of their cursors current latitude, longitude and zoom level. This was implemented by using built in Leaflet.JS functions. Additionally, I allowed the user to click on popups on the map in order to find out what kind of nest it was. This was completed by parsing the the current GeoJSON to pull out the attribute I wanted to display and then displaying it using a Leaflet method. 
+![](https://github.com/Samir-Sell/Eco_Webmapping/blob/Eco_Webmapping/Images/Bounding_Box.png)
+
+
+Finally, I added some quality of life additions to the map such as text updating on mouse movement that informs the user of their cursors current latitude, longitude and zoom level. This was implemented by using https://github.com/Samir-Sell/Eco_Webmapping/blob/Eco_Webmapping/Images/Bounding_Box.pngbuilt in Leaflet.JS functions. Additionally, I allowed the user to click on popups on the map in order to find out what kind of nest it was. This was completed by parsing the the current GeoJSON to pull out the attribute I wanted to display and then displaying it using a Leaflet method. 
 
 ![](https://github.com/Samir-Sell/Eco_Webmapping/blob/Eco_Webmapping/Images/popup.PNG)
 
@@ -33,4 +36,7 @@ By far the biggest challenges I ran into were scope creep and the abundance of t
 
 ## Wrap-up
 
-Altogether this was an enjoyable project that greatly increased my knowledge of how webmaps functions. I was able to learn the basics of many different types of useful technologies. These basics will provide a jump off point for my next project I decide to undertake. I look forward to continuing my learning so that I can eventually create full fledged web map applications for end users.
+Altogether this was an enjoyable project that greatly increased my knowledge of how webmaps functions. I was able to learn the basics of many different types of useful technologies. These basics will provide a jump off point for my next project I decide to undertake. I look forward to continuing my learning so that I can eventually create full fledged web map applications for end users. The whole web applications appears as such:
+
+![](https://github.com/Samir-Sell/Eco_Webmapping/blob/Eco_Webmapping/Images/Overview.PNG)
+
