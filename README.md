@@ -15,11 +15,15 @@ I decided on mapping the wild life value sites as I wanted the map to be relavan
 
 I was now able to implement my first button which allowed users to load nesting sites that were within their current view frame. I was able to do this by using a Leaflet method to return the coordinate bounds of the users current view field. I was then able to parse through the bounds to return the required information that would need to be entered into an SQL query to return the data. I used AJAX to action a POST request which sent my view frame extent to my server and called a script I created named load_data.php. Before I get into the specifics of the load_data.php script, PostgreSQL and PostGIS will need to be discussed. 
 
-I installed PostgreSQL with the PostGIS extension. I had then loaded in a fragment of data from the wild life value sites data set. This data set was loaded into postgreSQL by using ogr2ogr which allowed me to load shapefiles into the database. The load_data.php script used the PHP PDO data object to connect to my Postgres database and execute a query. The query would select geometries from my database that were within the bounding box paramters gathered from the user. Additionally, I chose to select the records as JSON. The returned selection was assigned to a variable and looped through in order to convert the JSON to a GeoJSON format that was readable by Leaflet.JS. All records were then combined into a single GeoJSON file which was then returned to the user. Additionally, the GeoJSON text was written into a GeoJSON file locally on the server and stored there. If one already existed, the new file would replace the old one. This will lead us into the next functon. The user has the ability to download the currently displayed GeoJSON data that they have just generated. 
-
 Load Data Button:
 
 ![](https://github.com/Samir-Sell/Eco_Webmapping/blob/Eco_Webmapping/Images/Load_Data.PNG)
+
+I installed PostgreSQL with the PostGIS extension. I had then loaded in a fragment of data from the wild life value sites data set. This data set was loaded into postgreSQL by using ogr2ogr which allowed me to load shapefiles into the database. The load_data.php script used the PHP PDO data object to connect to my Postgres database and execute a query. The query would select geometries from my database that were within the bounding box paramters gathered from the user. Additionally, I chose to select the records as JSON. The returned selection was assigned to a variable and looped through in order to convert the JSON to a GeoJSON format that was readable by Leaflet.JS. All records were then combined into a single GeoJSON file which was then returned to the user. Additionally, the GeoJSON text was written into a GeoJSON file locally on the server and stored there. If one already existed, the new file would replace the old one. This will lead us into the next functon. The user has the ability to download the currently displayed GeoJSON data that they have just generated. 
+
+Download Data Button:
+
+![](https://github.com/Samir-Sell/Eco_Webmapping/blob/Eco_Webmapping/Images/Download_Data.PNG)
 
 GeoJSON Output Snippet:
 
