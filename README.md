@@ -1,6 +1,6 @@
 # Eco_Webmapping
 
-This is a webmap I created for a school project. The webmap uses a fragment of wild life value sites which were downloaded from the [Governement of Ontario GeoHub](https://geohub.lio.gov.on.ca/datasets/wildlife-values-site/geoservice). The sites are all represented as point data with the majority of sites being important nesting areas. I will document my thought processes, the tools I used, and the issues I ran into. You can watch a quick demo of the web app [here](https://imgur.com/a/wi1l73x) or you can use the final web map application which can be found [here.](http://178.128.231.160/)
+This is a webmap I created for a school project. The webmap uses a fragment of wild life value sites which were downloaded from the [Governement of Ontario GeoHub](https://geohub.lio.gov.on.ca/datasets/wildlife-values-site/geoservice). The sites are all represented as point data with the majority of sites being important nesting areas. I  documented my thought processes, the tools I used, and the issues I ran into. You can watch a quick demo of the web app [here](https://imgur.com/a/wi1l73x) or you can use the final web map application which can be found [here.](http://178.128.231.160/)
 
 Data Snippet:
 ![](https://github.com/Samir-Sell/Eco_Webmapping/blob/Eco_Webmapping/Images/Data.PNG)
